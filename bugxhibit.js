@@ -64,17 +64,46 @@ function bugzillaConverter() {
   return data;
 }
 
+var buglistCallbackToCall = null;
 function buglistCallback() {
+  buglistCallbackToCall();
+  /*
   var nextCallbackNum = Exhibit.JSONPImporter._callbacks.next || 2;
   var thisCallbackNum = nextCallbackNum - 1;
   Exhibit.JSONPImporter._callbacks["cb" + thisCallbackNum]();
+  */
+}
+
+function bugzillaQuickSearch(aQueryString) {
+  var url = "https://bugzilla.mozilla.org/buglist.cgi?quicksearch=";
+  url += encodeURIComponent(aQueryString);
+  url += "&ctype=js&columnlist=all";
+
+  Exhibit.JSONPImporter.load(url, window.database, setupExhibit,
+                             bugzillaConverter, "buglistCallbackToCall");
+}
+
+function pageLoaded() {
+  var params = SimileAjax.parseURLParameters();
+
+  window.database = Exhibit.Database.create();
+
+  if (params.qs)
+    bugzillaQuickSearch(params.qs);
+  else
+    $("#manual").show();
+}
+
+function setupExhibit() {
+  window.exhibit = Exhibit.create();
+  window.exhibit.configureFromDOM();
+  exhibitLoaded();
 }
 
 /**
  *
  */
 function exhibitLoaded() {
-  console.log("exhibit loaded");
   $(".exhibit-facet-header").click(
     function() {
       $(this).toggleClass("collapsed").next().toggle("fast");
