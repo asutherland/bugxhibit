@@ -67,11 +67,6 @@ function bugzillaConverter() {
 var buglistCallbackToCall = null;
 function buglistCallback() {
   buglistCallbackToCall();
-  /*
-  var nextCallbackNum = Exhibit.JSONPImporter._callbacks.next || 2;
-  var thisCallbackNum = nextCallbackNum - 1;
-  Exhibit.JSONPImporter._callbacks["cb" + thisCallbackNum]();
-  */
 }
 
 function bugzillaQuickSearch(aQueryString) {
