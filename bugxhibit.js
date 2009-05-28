@@ -71,7 +71,7 @@ function buglistCallback() {
 
 function bugzillaQuickSearch(aQueryString) {
   var url = "https://bugzilla.mozilla.org/buglist.cgi?quicksearch=";
-  url += encodeURIComponent(aQueryString);
+  url += encodeURI(aQueryString);
   url += "&ctype=js&columnlist=all";
 
   Exhibit.JSONPImporter.load(url, window.database, setupExhibit,
