@@ -1,0 +1,27 @@
+.exhibit-ui-protection .bug {
+  border: 1px solid #ddd;
+  padding: 0.5em;
+}
+
+.bugid {
+  font-weight: bold;
+}
+
+.bugdesc {
+}
+
+.statoose {
+  color: #888;
+}
+
+.assignee {
+  color: #888;
+}
+
+.exhibit-facet-header .exhibit-facet-header-title:after {
+  content: " (-)";
+}
+
+.exhibit-facet-header.collapsed .exhibit-facet-header-title:after {
+  content: " (+)";
+}

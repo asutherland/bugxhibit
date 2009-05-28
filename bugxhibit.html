@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>BugXhibit</title>
+    
+    <link href="bugxhibit.css" rel="stylesheet" type="text/css" />
+
+    <link href="bugxample.js" type="application/jsonp"
+          rel="exhibit/data"
+          ex:converter="bugzillaConverter" />
+    
+    <script src="bugxhibit.js" type="text/javascript"></script>
+    <script src="http://static.simile.mit.edu/exhibit/api-2.0/exhibit-api.js"
+            type="text/javascript"></script>
+    <script src="http://static.simile.mit.edu/exhibit/extensions-2.0/time/time-extension.js"
+            type="text/javascript"></script>
+<!--
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"
+            type="text/javascript"></script> -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+        window.setTimeout(exhibitLoaded, 0);
+      });
+    </script>
+  </head>
+<body>
+  <h1>BugXhibit</h1>
+  <table width="100%">
+    <tr valign="top">
+      <td ex:role="viewPanel">
+        <div ex:role="view">
+          <div ex:role="lens" class="bug">
+            <a ex:href-subcontent="https://bugzilla.mozilla.org/show_bug.cgi?id={{.num}}"
+               ex:content=".num" class="bugid"></a>
+            <span ex:content=".short_short_desc"
+            class="bugdesc"></span>
+            <br/>
+            <span class="statoose">
+              <span ex:content=".bug_status"></span>
+              <span ex:content=".resolution"></span>
+              <span ex:content=".product"></span>
+              <span ex:content=".component"></span>
+            </span>
+            <br/>
+            <span class="assignee">
+              <span ex:content=".assigned_to_realname"></span>
+              <span ex:content=".assigned_to"></span>
+            </span>
+            <spam ex:content=".whiteboard"/></span>
+          </div>
+        </div>
+        <div ex:role="view"
+             ex:viewClass="Timeline"
+             ex:start=".opendate"
+             ex:end=".changeddate"
+             ex:colorKey=".bug_status">
+        </div>
+        <div ex:role="view"
+             ex:viewClass="Tabular"
+             ex:columns=".num, .short_short_desc"
+             ex:columnLabels="Bug, Description"
+             >
+        </div>
+      </td>
+      <td width="25%">
+        <div ex:role="facet"
+             ex:expression=".product"
+             ex:facetLabel="Product"
+             defaultExpanded="true"></div>
+        <div ex:role="facet"
+             ex:expression=".component"
+             ex:facetLabel="Component"
+             ex:sortMode="count"
+             defaultExpanded="true"></div>
+        <div ex:role="facet"
+             ex:expression=".bug_status"
+             ex:facetLabel="Status"></div>
+        <div ex:role="facet"
+             ex:expression=".resolution"
+             ex:facetLabel="Resolution"></div>
+        <div ex:role="facet"
+             ex:facetLabel="Text Search"
+             ex:facetClass="TextSearch"></div>
+        <div ex:role="facet"
+             ex:expression=".assigned_to_realname"
+             ex:facetLabel="Assignee"
+             ex:sortMode="count"></div>
+        <div ex:role="facet"
+             ex:expression=".whiteboard_bits"
+             ex:facetLabel="Whiteboard Flags"></div>
+        <div ex:role="facet"
+             ex:expression=".keyword_bits"
+             ex:facetLabel="Keywords"></div>
+        <div ex:role="facet"
+             ex:facetClass="Slider"
+             ex:expression=".patchCount"
+             ex:facetLabel="Patch Count"
+             ex:horizontal="true"
+             ex:precision="1"
+             ex:histogram="true"></div>
+        <div ex:role="facet"
+             ex:expression=".priority"
+             ex:facetLabel="Priority"></div>
+        <div ex:role="facet"
+             ex:expression=".target_milestone"
+             ex:facetLabel="Target Milestone"></div>
+        <div ex:role="facet"
+             ex:expression=".version"
+             ex:facetLabel="Version"></div>
+        <div ex:role="facet"
+             ex:expression=".qa_contact"
+             ex:facetLabel="QA Contact"></div>
+        <div ex:role="facet"
+             ex:expression=".op_sys"
+             ex:facetLabel="OS"></div>
+        <div ex:role="facet"
+             ex:facetClass="Slider"
+             ex:expression=".votes"
+             ex:facetLabel="Votes"
+             ex:horizontal="true"
+             ex:precision="1"
+             ex:histogram="true"></div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
