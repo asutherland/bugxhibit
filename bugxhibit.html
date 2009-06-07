@@ -179,7 +179,10 @@
                ex:content=".num" class="bugid"></a>
             <span ex:content=".short_short_desc"
             class="bugdesc"></span>
-            <br/>
+            <br />
+            <div ex:if-exists=".status_whiteboard" realsies="true">
+              <span ex:content=".status_whiteboard" realsies="true"></span>
+            </div>
             <span class="statoose">
               <span ex:content=".bug_status"></span>
               <span ex:content=".resolution"></span>
@@ -187,12 +190,11 @@
               <span ex:content=".component"></span>
               <span style="float: right;" ex:content=".changeddate"></span>
             </span>
-            <br/>
+            <br />
             <span class="assignee">
               <span ex:content=".assigned_to_realname"></span>
               <span ex:content=".assigned_to"></span>
             </span>
-            <spam ex:content=".whiteboard"/></span>
           </div>
         </div>
         <div ex:role="view"

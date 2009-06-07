@@ -129,6 +129,11 @@ function makeDateExhibitFriendly(aDate) {
 
 function bugzillaConverter() {
   var data = {items: [],
+              types: {
+                Bug: {
+                  pluralLabel: "Bugs"
+                }
+              },
               properties: {
                 num: {valueType: "number"},
                 patchCount: {valueType: "number"},
@@ -153,7 +158,7 @@ function bugzillaConverter() {
 
     goodBug.label = key + ": " + goodBug.short_short_desc;
     goodBug.whiteboard_bits =
-      splitIgnoreEmpty(goodBug.status_whiteboard, /[[\]]+/);
+      splitIgnoreEmpty(goodBug.status_whiteboard, /[[\],]+/);
     goodBug.keyword_bits = splitIgnoreEmpty(goodBug.keywords, /[, ]+/);
     goodBug.patchCount = splitIgnoreEmpty(goodBug.patches, ",").length;
     goodBug.resolution = goodBug.resolution || "--";
