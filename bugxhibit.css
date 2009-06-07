@@ -3,6 +3,33 @@
   padding: 0.5em;
 }
 
+div.exhibit-collectionView-group h1 {
+  margin: 0 !important;
+  font-size: 100% !important;
+}
+
+#documentation dt {
+  font-weight: bold;
+  margin: 0.2em;
+}
+
+#documentation ul {
+  margin: 0.5em 0;
+}
+
+.example {
+  font-style: italic;
+  color: #ccf;
+}
+
+div.exhibit-collectionView-header-sortControls {
+  margin: 0 !important;
+}
+
+ol.exhibit-tileView-body {
+  margin: 0;
+}
+
 .bugid {
   font-weight: bold;
 }
@@ -18,10 +45,21 @@
   color: #888;
 }
 
-.exhibit-facet-header .exhibit-facet-header-title:after {
+div[biggerByDefault] div.exhibit-facet-body {
+  height: 14em;
+}
+
+.exhibit-facet-header .exhibit-facet-header-title:after,
+.exhibit-flowingFacet-header .exhibit-flowingFacet-header-title:after {
   content: " (-)";
 }
 
-.exhibit-facet-header.collapsed .exhibit-facet-header-title:after {
+.exhibit-facet-header.collapsed .exhibit-facet-header-title:after,
+.exhibit-flowingFacet-header.collapsed .exhibit-flowingFacet-header-title:after {
   content: " (+)";
+}
+
+#documentation {
+  background-color: black;
+  color: white;
 }

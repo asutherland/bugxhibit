@@ -14,17 +14,166 @@
     </script>
   </head>
 <body>
-  <div id="manual" style="display: none">
+  <div id="manualSearch" style="display: none">
     Enter something to (quick) search for:
     <form>
       <input id="searchString" type="text" name="qs" />
       <input type="submit" value="Search BMO" />
     </form>
+    <hr/>
+    Enter an e-mail address to observe bugs that said person commented
+    on that have had recent activity:
+    <form>
+      <input id="searchString" type="text" name="who" />
+      <br/>
+      <input type="checkbox" name="why" value="assignee"/>Assignee<br />
+      <input type="checkbox" name="why" value="reporter"/>Reporter<br />
+      <input type="checkbox" name="why" value="cc"/>CC<br />
+      <input type="checkbox" name="why" value="commenter"/>Commenter<br />
+      <br/>
+      <input type="submit" value="Search BMO" />
+    </form>
+  </div>
+  <div id="documentation" style="display: none">
+    <a onclick="$('#documentation').toggle()">Hide Documentation</a>
+    <h2>Searching</h2>
+    <dl>
+      <dt>qs</dt>
+      <dd>
+        Bugzilla quick search payload<br/>
+        <ul>
+          <li><span class="example">qs=gloda</span> is like typing "gloda" in the bugzilla quick
+          search box.</li>
+        </ul>
+      </dd>
+
+      <dt>who</dt>
+      <dd>
+        <p>
+          Search on an e-mail e-mail address, looking for bugs that
+          match that e-mail and were modified in some recent time
+          interval.  Supports an optional 'why' attribute to specify
+          what we should use the e-mail address to search for.  If
+          omitted, we assume "commenter".  Supports an optional
+          'howrecent' attribute to specify the amount of time into the
+          past we should check which defaults to 7 days ago (7d).
+        </p>
+        <dl>
+          <dt>why</dt>
+          <dd>
+            <p>
+              Indicate what we want to search on the e-mail for.  This
+              can be used multiple times to specify one or more of the
+              following values.  If omitted, we assume "commenter".
+            </p>
+            <ul>
+              <li>assignee</li>
+              <li>reporter</li>
+              <li>cc</li>
+              <li>commenter</li>
+            </ul>
+            <p>
+              If you only want to search on one thing, you can instead
+              just use assignee, reporter, cc, or commenter as keys
+              (where the value is the e-mail address.)
+            </p>
+          </dd>
+
+          <dt>howrecent</dt>
+          <dd>
+            <p>
+              How recently should the message have changed.  If omitted, we
+              assume one week.  The syntax for this uses bugzilla's
+              query syntax, which is not amazingly intuitive.  Syntax
+              regexp-wise is: (-|\+)?(\d+)([hHdDwWmMyY]).  Where the
+              meanings are:
+            </p>
+            <dl>
+              <dt>h</dt><dd>Hours Ago.  If the amount is zero, it
+              means at the top of this hour.</dd>
+              <dt>d</dt><dd>Days ago, at the start of that day.  (So
+              not this time, 2 days ago, but the very start of 2 days ago.)</dd>
+              <dt>w</dt><dd>Weeks ago, at the start of that week.
+              Where sunday is the start of the week.</dd>
+              <dt>m</dt><dd>Months ago, at the start of that month.</dd>
+              <dt>y</dt><dd>Years ago, at the start of that year.</dd>
+            </dl>
+            <p>
+              You should never use a negative sign, as your search
+              will match nothing and make very little sense.
+            </p>
+          </dd>
+
+          Examples:
+          <ul>
+            <li><span class="example">who=foo@bar.com</span> queries for bugs changed in the past week
+            where they commented.</li>
+            <li><span class="example">who=foo@bar.com&amp;why=assignee&amp;why=reporter</span>
+            queries for bugs changed in the past week where they are
+            the assignee or reporter.</li>
+            <li><span class="example">cc=foo@bar.com</span> searches for bugs changed in the past
+            week where they are on the cc list.</li>
+            <li><span class="example">reporter=foo@bar.com&amp;howlong=3d</span> Bugs reported by
+            foo@bar.com that have changed in the last 3 days.</li>
+          </ul>
+        </dl>
+      </dd>
+    </dl>
+
+    <h2>Display</h2>
+    <dl>
+      <dt>sortBy</dt>
+      <dd>
+        Set the initial sort to use.  This should be one of the
+        attribute names with a "." prepended (this is exhibit syntax).
+        These are exactly what you see if you click on the "sorted by"
+        option (except for the period).  If you want to use multiple
+        sort orders, comma-delimit and make sure every attribute
+        starts with a period.  You should also consider setting
+        sortOrder too.
+        <ul>
+          <li><span class="example">sortBy=.num</span> to sort by bug number</li>
+          <li><span class="example">sortBy=.assigned_to_realname</span> to sort by the name of the
+          assignee.</li>
+          <li><span class="example">sortBy=.changeddate,.num</span> to sort by the changed date and
+          then the bug number.  Be sure to do
+          <span class="example">sortOrder=descending,ascending</span> or whatever you desire there too.
+        </ul>
+      </dd>
+
+      <dt>sortOrder</dt>
+      <dd>
+        Set the initial sort order.  The value should be either
+        "descending" or "ascending".  If you are setting multiple sort
+        columns using sortBy, you should include a comma-delimited
+        list of the values.
+        <ul>
+          <li class="example">sortOrder=descending</li>
+          <li class="example">sortOrder=ascending</li>
+          <li class="example">sortOrder=descending,ascending for when sortBy has two
+          attributes specified.</li>
+        </ul>
+      </dd>
+
+      <dt>groupBySort</dt>
+      <dd>
+        Specify whether the display should be "grouped as sorted" initially.
+        <ul>
+          <li class="example">groupBySort=true</li>
+          <li class="example">groupBySort=false</li>
+        </ul>
+      </dd>
+    </dl>
   </div>
   <table width="100%">
     <tr valign="top">
       <td ex:role="viewPanel">
-        <div ex:role="view">
+        <div id="tileView"
+             ex:role="view"
+             ex:orders=".changeddate,.num"
+             ex:directions="descending,descending"
+             ex:abbreviatedCount="20"
+             ex:formats="date { mode: medium; show: date }">
           <div ex:role="lens" class="bug">
             <a ex:href-subcontent="https://bugzilla.mozilla.org/show_bug.cgi?id={{.num}}"
                ex:content=".num" class="bugid"></a>
@@ -36,6 +185,7 @@
               <span ex:content=".resolution"></span>
               <span ex:content=".product"></span>
               <span ex:content=".component"></span>
+              <span style="float: right;" ex:content=".changeddate"></span>
             </span>
             <br/>
             <span class="assignee">
@@ -49,34 +199,45 @@
              ex:viewClass="Timeline"
              ex:start=".opendate"
              ex:end=".changeddate"
-             ex:colorKey=".bug_status">
+             ex:colorKey=".bug_status"
+             ex:timelineHeight="600">
         </div>
+<!--
         <div ex:role="view"
              ex:viewClass="Tabular"
              ex:columns=".num, .short_short_desc"
              ex:columnLabels="Bug, Description"
              >
         </div>
+-->
       </td>
       <td width="25%">
+        <a onclick="$('#documentation').toggle()">Show Docs</a>
+        <div ex:role="facet"
+             ex:facetLabel="Text Search"
+             ex:facetClass="TextSearch"
+             defaultExpanded="true"></div>
         <div ex:role="facet"
              ex:expression=".product"
              ex:facetLabel="Product"
+             ex:scroll="false"
              defaultExpanded="true"></div>
         <div ex:role="facet"
              ex:expression=".component"
              ex:facetLabel="Component"
              ex:sortMode="count"
-             defaultExpanded="true"></div>
+             defaultExpanded="true"
+             biggerByDefault="true"></div>
         <div ex:role="facet"
              ex:expression=".bug_status"
-             ex:facetLabel="Status"></div>
+             ex:facetLabel="Status"
+             ex:scroll="false"
+             defaultExpanded="true"></div>
         <div ex:role="facet"
              ex:expression=".resolution"
-             ex:facetLabel="Resolution"></div>
-        <div ex:role="facet"
-             ex:facetLabel="Text Search"
-             ex:facetClass="TextSearch"></div>
+             ex:facetLabel="Resolution"
+             ex:scroll="false"
+             defaultExpanded="true"></div>
         <div ex:role="facet"
              ex:expression=".assigned_to_realname"
              ex:facetLabel="Assignee"
@@ -96,7 +257,8 @@
              ex:histogram="true"></div>
         <div ex:role="facet"
              ex:expression=".priority"
-             ex:facetLabel="Priority"></div>
+             ex:facetLabel="Priority"
+             ex:scroll="false"></div>
         <div ex:role="facet"
              ex:expression=".target_milestone"
              ex:facetLabel="Target Milestone"></div>
