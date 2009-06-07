@@ -24,8 +24,9 @@ function splitIgnoreEmpty(bstr, pat) {
   var result = [];
   // filter out empty entries
   for (var i = 0; i < bits.length; i++) {
-    if (bits[i])
-      result.push(bits[i]);
+    var trimmed = $.trim(bits[i]);
+    if (trimmed)
+      result.push(trimmed);
   }
   return result;
 }
@@ -143,7 +144,7 @@ function bugzillaConverter() {
     if (parseInt(key) == NaN)
       continue;
     rawBug = bugs[key];
-    goodBug = {num: key}; // parseInt(key)};
+    goodBug = {num: key, type: "Bug"};
     items.push(goodBug);
 
     for (iCol = 0; iCol < rawBug.length; iCol++) {
@@ -153,7 +154,7 @@ function bugzillaConverter() {
     goodBug.label = key + ": " + goodBug.short_short_desc;
     goodBug.whiteboard_bits =
       splitIgnoreEmpty(goodBug.status_whiteboard, /[[\]]+/);
-    goodBug.keyword_bits = splitIgnoreEmpty(goodBug.keywords);
+    goodBug.keyword_bits = splitIgnoreEmpty(goodBug.keywords, /[, ]+/);
     goodBug.patchCount = splitIgnoreEmpty(goodBug.patches, ",").length;
     goodBug.resolution = goodBug.resolution || "--";
 
