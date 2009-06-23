@@ -72,7 +72,6 @@ function unDiffDate(aDate) {
       now.setTime(now.getTime() - ONE_DAY); // avoid rollover issues
     now.setHours(h);
     now.setMinutes(m);
-    console.log(aDate, "to", now);
     return now;
   }
 
@@ -101,7 +100,6 @@ function unDiffDate(aDate) {
     now.setTime(now.getTime() - weekdayCompensator[dowStr] * ONE_DAY);
     now.setHours(h);
     now.setMinutes(m);
-    console.log(aDate, "to", now);
     return now;
   }
 
@@ -123,7 +121,6 @@ function makeDateExhibitFriendly(aDate) {
   var r = ys + "-" +
          (ms.length == 1 ? ("0" + ms) : ms) + "-" +
          (ds.length == 1 ? ("0" + ds) : ds);
-  console.log("...", aDate, "to", r);
   return r;
 }
 
