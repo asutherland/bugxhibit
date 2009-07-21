@@ -1,12 +1,12 @@
 
 // this comes from using ctype=csv
 var columns = ["priority","changeddate","keywords","assigned_to","qa_contact",
-               "bug_severity","opendate","resolution","classification",
-               "qa_contact_realname","alias","op_sys","cf_blocking_fennec",
-               "assigned_to_realname","reporter","rep_platform",
-               "short_short_desc","status_whiteboard","votes","bug_status",
-               "version","component","reporter_realname","product",
-               "target_milestone","patches"];
+               "bug_severity","cf_blocking_191","cf_status_191","opendate",
+               "resolution","classification","qa_contact_realname","alias",
+               "op_sys","cf_blocking_fennec","assigned_to_realname","reporter",
+               "rep_platform","short_short_desc","status_whiteboard","votes",
+               "bug_status","version","component","reporter_realname",
+               "product","target_milestone","patches"];
 
 /**
  * Split a string, returning only non-empty values.
