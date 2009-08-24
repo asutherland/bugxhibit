@@ -182,7 +182,7 @@ function setSearchTitle(aTitle) {
 
 function bugzillaQuickSearch(aQueryString) {
   var url = "https://bugzilla.mozilla.org/buglist.cgi?quicksearch=";
-  url += encodeURI(aQueryString);
+  url += encodeURIComponent(aQueryString);
   url += "&ctype=js&columnlist=all";
 
   setSearchTitle("bx:qs:" + aQueryString);
@@ -193,7 +193,7 @@ function bugzillaQuickSearch(aQueryString) {
 
 function bugzillaWho(aEmailAddress, aHowLong, aWhatFor) {
   var url = "https://bugzilla.mozilla.org/buglist.cgi?email1=";
-  url += encodeURI(aEmailAddress) + "&emailtype1=exact";
+  url += encodeURIComponent(aEmailAddress) + "&emailtype1=exact";
   if ($.inArray("assignee", aWhatFor) != -1)
     url += "&emailassigned_to1=1";
   if ($.inArray("reporter", aWhatFor) != -1)
@@ -213,6 +213,21 @@ function bugzillaWho(aEmailAddress, aHowLong, aWhatFor) {
 
 var defaultTimeInterval = "7d";
 function pageLoaded() {
+  /*
+  var params = {howrecent: defaultTimeInterval, why: ["commenter"]};
+  // parse the parameters ourselves... I think parseURL is hurting us.
+  if (window.location.search && window.location.search.length) {
+    var searchBits = window.location.search.substring(1).split("&");
+    for (var iBit = 0; iBit < searchBits.length; iBit++) {
+      var kvParts = searchBits[iBit].split("=");
+      if (kvParts.length != 2)
+        continue;
+      var key = kvParts[0];
+      var val = kvParts[1];
+
+    }
+  }
+  */
   var params = SimileAjax.parseURLParameters(undefined, {
                                                howrecent: defaultTimeInterval,
                                                why: ["commenter"],
