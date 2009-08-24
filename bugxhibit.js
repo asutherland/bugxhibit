@@ -213,21 +213,6 @@ function bugzillaWho(aEmailAddress, aHowLong, aWhatFor) {
 
 var defaultTimeInterval = "7d";
 function pageLoaded() {
-  /*
-  var params = {howrecent: defaultTimeInterval, why: ["commenter"]};
-  // parse the parameters ourselves... I think parseURL is hurting us.
-  if (window.location.search && window.location.search.length) {
-    var searchBits = window.location.search.substring(1).split("&");
-    for (var iBit = 0; iBit < searchBits.length; iBit++) {
-      var kvParts = searchBits[iBit].split("=");
-      if (kvParts.length != 2)
-        continue;
-      var key = kvParts[0];
-      var val = kvParts[1];
-
-    }
-  }
-  */
   var params = SimileAjax.parseURLParameters(undefined, {
                                                howrecent: defaultTimeInterval,
                                                why: ["commenter"],
